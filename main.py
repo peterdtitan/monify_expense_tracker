@@ -63,7 +63,7 @@ def add_income():
     tracker(date,income,0,0,0,0,0)
 
 def add_expense():
-    print("\t\t\t\nEXPENSE CATEGORIES: \n1. Food & Drinks\n2. Housing & Transport\n 3. Life & Entertainment\n4. Miscellaneous\n")
+    print("\t\t\t\nEXPENSE CATEGORIES: \n1. Food & Drinks\n2. Housing & Transport\n3. Life & Entertainment\n4. Miscellaneous\n")
     
     while True:
         try:
@@ -82,7 +82,7 @@ def add_expense():
                 year,month,day=map(int,date.split(','))
                 date = datetime.date(year,month,day)
                 
-                fd = str(input("\nHow much did you spend on \"Food and Drinks?\""))
+                fd = str(input("\nHow much did you spend on \"Food and Drinks?\": -->  "))
                 print("\n")
             except ValueError:
                 print("Please enter valid input!\n")
@@ -99,7 +99,7 @@ def add_expense():
                 year,month,day=map(int,date.split(','))
                 date = datetime.date(year,month,day)
                 
-                ht = str(input("\nHow much did you spend on \"Housing & Transport?\""))
+                ht = str(input("\nHow much did you spend on \"Housing & Transport?\": -->  "))
                 print("\n")
             except ValueError:
                 print("Please enter valid input!\n")
@@ -116,7 +116,7 @@ def add_expense():
                 year,month,day=map(int,date.split(','))
                 date = datetime.date(year,month,day)
                 
-                le = str(input("\nHow much did you spend on \"Life & Entertainment?\""))
+                le = str(input("\nHow much did you spend on \"Life & Entertainment?\": -->  "))
                 print("\n")
             except ValueError:
                 print("Please enter valid input!\n")
@@ -133,7 +133,7 @@ def add_expense():
                 year,month,day=map(int,date.split(','))
                 date = datetime.date(year,month,day)
                 
-                misc = str(input("\nHow much did you spend on \"Miscellaneous?\""))
+                misc = str(input("\nHow much did you spend on \"Miscellaneous?\": -->  "))
                 print("\n")
             except ValueError:
                 print("Please enter valid input!\n")
@@ -144,6 +144,6 @@ def add_expense():
                 break
             
 add_income()
-add_expense()
-add_expense()
 add_income()
+add_expense()
+add_expense()
