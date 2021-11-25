@@ -4,6 +4,32 @@ import pandas as pd
 from matplotlib import pyplot,style
 
 
+def checkIf(month):
+    try :
+        df = pd.read_csv(f'{month}.csv')
+        return df.empty
+    except :
+        return True
+    
+    
+def check_month(month):
+    switch = {
+        1 : 'January',
+        2 : 'February',
+        3 :'March',
+        4 :'April',
+        5 :'May',
+        6 :'June',
+        7 :'July',
+        8 :'August',
+        9 :'September',
+        10 :'October',
+        11 :'November',
+        12 :'December',
+    }
+    return switch.get(month,1)
+
+
 def tracker(date = datetime.date.today() ,income =" ", foodDrinks =" ", Transport =" ", lifeEntertainment =" ", miscellaneous =" ", housing= " ", total_expenses =" "):
     data = {
     'Date':date,
@@ -13,7 +39,7 @@ def tracker(date = datetime.date.today() ,income =" ", foodDrinks =" ", Transpor
     'Life & Entertainment': lifeEntertainment,
     'Miscellaneous': miscellaneous,
     'Housing': housing, 
-    'Total Expense': total_expenses
+    'Total Expenses': total_expenses
     }
     
     database = df.from_dict(data,orient='index')
@@ -30,7 +56,6 @@ def tracker(date = datetime.date.today() ,income =" ", foodDrinks =" ", Transpor
 
 class Monify:
   def __init__ (self, monthly = 0.0, food_drinks = 0.0 , transport = 0.0, housing = 0.0, life_entertainment = 0.0, miscellaneous = 0.0, emergency_fund = 0.0, available_income =" " ):
-    global 
     self.available_income = available_income
     self.budget_monthly =   monthly
     self.budget_food_drinks = food_drinks
@@ -137,7 +162,7 @@ class Monify:
                 year,month,day=map(int,date.split('-'))
                 date = datetime.date(year,month,day)
                 
-                misc = str(input("\nHow much did you spend on \"Housing?\""))
+                house = str(input("\nHow much did you spend on \"Housing?\""))
                 print("\n")
             except ValueError:
                 print("Please enter valid input!\n")
@@ -184,7 +209,7 @@ class Monify:
     emergency_fund_amount = float(input("How much do you want to save in your Emergency fund account\n:--> "))
     while True:
       try: 
-        if self.available_income not None and emergency_fund_amount < self.available_income:
+        if self.available_income  and emergency_fund_amount < self.available_income:
           self.budget_emergency_fund += emergency_fund_amount
           print(f"You saved {self.budget_emergency_fund} in your Emergency_fund account")
         else:
