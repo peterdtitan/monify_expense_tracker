@@ -1,10 +1,16 @@
 import datetime
+from datetime import date 
 from pandas import DataFrame as df
 import pandas as pd
 from csv import writer
 import glob
 import os.path
 import os
+from matplotlib import style
+import matplotlib.pyplot as plt
+import numpy as np
+
+
 
 
 def checkIf(month):
@@ -33,7 +39,7 @@ def check_month(month):
     return switch.get(month,1)
 
 
-def tracker(date = 0 ,income =" ", foodDrinks =" ", Transport =" ", lifeEntertainment =" ", miscellaneous =" ", housing= " ", total_expenses =" "):
+def tracker(date = 0, income =" ", foodDrinks =" ", Transport =" ", lifeEntertainment =" ", miscellaneous =" ", housing= " ", total_expenses = ''):
     data = {
     'Date':date,
     'Income':income,
@@ -50,24 +56,25 @@ def tracker(date = 0 ,income =" ", foodDrinks =" ", Transport =" ", lifeEntertai
     decide = 'a'
     check = False
     datea = str(date)
-    year,month,day = map(int,datea.split('-'))
-    curr_month = check_month(month)
-    if checkIf(curr_month):
+    year,month,day = map(int, datea.split('-'))
+    current_month = check_month(month)
+    if checkIf(current_month):
         decide = 'w'
         check = True
-    database.to_csv(f'{curr_month}.csv',mode = decide,header=check,index=False)
+    database.to_csv(f'{current_month}.csv',mode = decide,header=check,index=False)
 
 class Monify:
   def add_income():
     date = str(input('Enter Date (YYYY-MM-DD)\n: --> '))
-    year,month,day=map(int,date.split('-'))
+    year,month,day=map (int,date.split('-'))
     date = datetime.date(year,month,day)
     income = int(input("Enter your income for the month \n: --> "))
     tracker(date,income,0,0,0,0,0,0)
+    menu()
     
 
   def add_expenditure():
-    print("\t\t\t\nEXPENSE CATEGORIES: \n1. Food & Drinks\n2. Transport\n 3. Life & Entertainment\n4. Miscellaneous\n5. Housing\n")
+    print("\t\t\t\nEXPENSE CATEGORIES: \n1. Food & Drinks\n2. Transport\n3. Life & Entertainment\n4. Miscellaneous\n5. Housing\n")
     
     while True:
         try:
@@ -87,6 +94,7 @@ class Monify:
                 date = datetime.date(year,month,day)
                 
                 fd = str(input("\nHow much did you spend on \"Food and Drinks?\" --> "))
+            
                 
             except ValueError:
                 print("Please enter valid input!\n")
@@ -95,7 +103,11 @@ class Monify:
             else:
                 tracker(date,0,fd,0,0,0,0,0)
                 print("\nExpense recorded successfully!\n")
-                break
+                user_response  = input("Add another expenditure (yes/no)? ")
+                user_response.lower()
+                if user_response == "yes":
+                  Monify.add_expenditure()
+                menu()
             
             
     elif response == 2:
@@ -114,7 +126,11 @@ class Monify:
             else:
                 tracker(date,0,0,ht,0,0,0,0)
                 print("\nExpense recorded successfully!\n")
-                break
+                user_response  = input("Add another expenditure (yes/no)? ")
+                user_response.lower()
+                if user_response == "yes":
+                  Monify.add_expenditure()
+                menu()
 
 
     elif response == 3:
@@ -133,7 +149,11 @@ class Monify:
             else:
                 tracker(date,0,0,0,le,0,0,0)
                 print("\nExpense recorded successfully!\n")
-                break
+                user_response  = input("Add another expenditure (yes/no)? ")
+                user_response.lower()
+                if user_response == "yes":
+                  Monify.add_expenditure()
+                menu()
 
 
     elif response == 4:
@@ -151,7 +171,11 @@ class Monify:
             else:
                 tracker(date,0,0,0,0,misc,0,0)
                 print("\nExpense recorded successfully!\n")
-                break
+                user_response  = input("Add another expenditure (yes/no)? ")
+                user_response.lower()
+                if user_response == "yes":
+                  Monify.add_expenditure()
+                menu()
 
 
     elif response == 5:
@@ -170,12 +194,14 @@ class Monify:
             else:
                 tracker(date,0,0,0,0,0,house,0)
                 print("\nExpense recorded successfully!\n")
-                break
+                user_response  = input("Add another expenditure (yes/no)?: ")
+                user_response.lower()
+                if user_response == "yes":
+                  Monify.add_expenditure()
+                menu()
     
             
   def add_budget():
-    
-    
     print("\nYou are about to enter your budget for the CURRENT MONTH")
     
     while True:
@@ -188,7 +214,6 @@ class Monify:
       else:
         break
       
-    
 
 
   def emergency_fund():
@@ -203,6 +228,8 @@ class Monify:
       print(list)
     else:
       print("\nYou have not added any shopping list yet!")
+      Monify.add_shopping_list()
+    
     
 
   def add_shopping_list():
@@ -228,11 +255,16 @@ class Monify:
           os.remove('Shopping List.csv')
           
         df.to_csv('Shopping List.csv')
-        
+
+    user_response = input(str("Would you like to view your shopping list (yes/no)"))
+    user_response.lower
+    if user_response == "yes":
+      Monify.view_shopping_list()
+    else:
+      menu()
 
         
 
- 
 
 def debt_data(date = 0, lender = " ", amount = " ", due = " ",):
   data = {
@@ -278,19 +310,17 @@ class Debt_account(Monify):
 
 def menu():
   print("\n\t\t########################### WELCOME TO MONIFY ###########################")
-  print("\n\t\tWhat do you want to do?\n\t\t1. Add Income\n\t\t2. Add Expenditure\n\t\t3. Debt Accounting\n\t\t4. Shopping List\n\t\t5. Emergency Funds\n")
+  print("\n\t\tWhat do you want to do?\n\t\t1. Add Income\n\t\t2. Add Expenditure\n\t\t3. Debt Accounting\n\t\t4. Shopping List\n\t\t5. Emergency Funds\n\t\t6. View Statistics\n")
   
   while True:
     try:
       ans = int(input("Please enter an option: --> "))
     except ValueError:
       print("\nPlease enter an integer!")
-      print("\n\t\t########################### WELCOME TO MONIFY ###########################")
-      print("\n\t\tWhat do you want to do?\n\t\t1. Add Income\n\t\t2. Add Expenditure\n\t\t3. Debt Accounting\n\t\t4. Shopping List\n\t\t5. Emergency Funds\n6. Statistics")
       continue
     else:
       break
-    
+
   if ans == 1:
     Monify.add_income()
     
@@ -311,6 +341,110 @@ def menu():
       Debt_account.add_debt_record()
     elif debt == 2:
       Debt_account.pay_debt()
+
+  elif ans == 4:
+    while True:
+      try:
+        print("\n\t\t1. Add items to Shopping List\n\t\t2. View Shopping List\n")
+        user_shop_resp = int(input("What do you want to do? --> "))
+      except ValueError:
+        print("\nPlease enter an integer!\n")
+        continue
+      else:
+        break
+    if user_shop_resp == 1:
+      Monify.add_shopping_list()
+    elif user_shop_resp == 2:
+      Monify.view_shopping_list()
+  
+  elif ans == 5:
+    pass
+  
+  elif ans == 6:
+    while True:
+      try:
+        print("\n\t\t1. View Income-Expense Chart\n\t\t2. View Spending Chart\n")
+        user_stats_resp = int(input("What do you want to do? --> "))
+      except ValueError:
+        print("\nPlease enter an integer!\n")
+        continue
+      else:
+        break
+    if user_stats_resp == 1:
+      Statistics.income_expense()
+    elif user_stats_resp == 2:
+      Statistics.spending_chart()
+
+    
+
+class Statistics(Monify):
+  def spending_chart():
+    user_input = input("What month would you like to view the statistics for: ")
+    user_input.title()
+    slices = []
+    headers = ["Food & drinks", "Transport", "Life & Entertainment", "Miscellaneous", "Housing"]
+
+    try:
+      get =  pd.read_csv (f'{user_input}.csv')
+      slices.append(get['Food & Drinks'].sum())
+      slices.append(get['Transport'].sum())
+      slices.append(get['Life & Entertainment'].sum())
+      slices.append(get['Miscellaneous'].sum())
+      slices.append(get['Housing'].sum())
+      print(slices)
+    
+      colors = ['r', 'y', 'g', 'b', 'm' ]
+      myexplode = (0, 0, 0, 0, 0)
+
+      fig, ax = plt.subplots(figsize =(10, 7))
+      wedges, texts, autotexts = ax.pie(slices,
+                                  autopct = '%1.1f%%',
+                                  explode = myexplode,
+                                  labels = headers,
+                                  shadow = True,
+                                  colors = colors,
+                                  startangle = 90)
       
-Monify.add_shopping_list()
-Monify.view_shopping_list()
+      ax.legend(title = "Expense Categories", loc ="upper left" , bbox_to_anchor =(1, 0, 0.5, 1))
+      plt.setp(autotexts, size = 8, weight ="bold")
+      ax.set_title('Spending by Categories')
+      plt.show()
+      
+    except FileNotFoundError:
+      print("You haven't inputed any data for that month")
+      menu()
+
+  def income_expense():
+    list_month= list(map(lambda x : check_month(x), range(1, 13)))
+    month_name = []
+    income = []
+    expense = []
+    total_expense = []
+    for month in list_month:
+      try:
+        get = pd.read_csv(f'{month}.csv', index_col= 'Date')
+        income.append(get['Income'].sum())
+        expense.append(get['Food & Drinks'].sum())
+        expense.append(get['Transport'].sum())
+        expense.append(get['Life & Entertainment'].sum())
+        expense.append(get['Miscellaneous'].sum())
+        expense.append(get['Housing'].sum())
+        month_name.append(month)
+        total_expense.append(sum(expense))
+
+      except FileNotFoundError :
+        pass
+
+    graph_detail = df({
+        'Income':income,
+        'Expense':total_expense} ,index = month_name)
+    style.use('fivethirtyeight')
+    columns = ['Income', 'Expenses']
+    graph_detail.plot.bar(rot = 0)
+    plt.title(f"Cash Flow Trend")
+    plt.show()
+    menu()
+    
+
+
+menu()

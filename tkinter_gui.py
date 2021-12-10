@@ -1,7 +1,5 @@
 from tkinter import *
 import datetime
-from main import *
-
 
 def add_income():
    new= Toplevel(root)
